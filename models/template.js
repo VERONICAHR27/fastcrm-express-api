@@ -1,19 +1,17 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-// Definir el esquema de la plantilla
 const templateSchema = new mongoose.Schema({
-    type: { type: String, required: true,
-        enum: ['Welcome', 'Follow-up', 'Farewell'], // Tipos de plantilla permitidos
-     }, // Tipo de plantilla
-    content: { type: String, required: true }, // Contenido de la plantilla
-    labels: { type: [String], default: [] }, // Etiquetas asociadas
-    author: { type: String, required: true }, // Autor de la plantilla
-    createdAt: { type: Date, default: Date.now } // Fecha de creación
+    type: {
+        type: String,
+        required: true,
+        enum: ['Welcome', 'Follow-up', 'Farewell'],
+    },
+    content: { type: String, required: true },
+    labels: { type: [String], default: [] },
+    author: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now }
 });
 
-
-
-// Crear el modelo
 const Template = mongoose.model('Template', templateSchema);
 
-module.exports = Template;
+export default Template;

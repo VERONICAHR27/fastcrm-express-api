@@ -1,29 +1,27 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const templateRoutes = require('./routes/templateRoutes');
-const cors = require('cors'); // Importar cors para habilitar CORS
-require('dotenv').config();
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import templateRoutes from './routes/templateRoutes.js';
+import companyRoutes from './routes/companyRoutes.js';
+import contactRoutes from './routes/contactRoutes.js';
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-
-// Permitir solicitudes desde cualquier origen
+app.use(express.json()); // Middleware para procesar JSON
 app.use(cors());
 
-
-// Conexión a MongoDB
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('Conexión exitosa a MongoDB Atlas'))
     .catch((err) => console.error('Error al conectar a MongoDB:', err));
 
-// Middleware
-app.use(express.json());
-
-// Rutas
 app.use('/api/templates', templateRoutes);
+app.use('/api/companies', companyRoutes);
+app.use('/api/contacts', contactRoutes);
 
-// Iniciar servidor
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });

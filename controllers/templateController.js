@@ -1,35 +1,42 @@
-const Template = require('../models/template.js');
+import Template from '../models/template.js';
 
-// Obtener todas las plantillas
-const getAllTemplates = async (req, res) => {
+export const getAllTemplates = async (req, res) => {
     try {
-        const { q, type } = req.query; // Obtener los parámetros de búsqueda desde la query string
-
-        // Validar que el tipo esté dentro del enum
+        const { q, type } = req.query;
         const validTypes = ['Welcome', 'Follow-up', 'Farewell'];
         if (type && !validTypes.includes(type)) {
             return res.status(400).json({ message: `El tipo '${type}' no es válido. Tipos permitidos: ${validTypes.join(', ')}` });
         }
 
-        // Construir el filtro dinámico
         const filter = {
-            ...(q ? { content: { $regex: q, $options: 'i' } } : {}), // Filtrar por contenido si se proporciona "q"
-            ...(type ? { type } : {}) // Filtrar por tipo si se proporciona "type"
+            ...(q ? { content: { $regex: q, $options: 'i' } } : {}),
+            ...(type ? { type } : {})
         };
-        
-        
 
-        
-        // Retornar los resultados reales (sin explain) al cliente
         const actualtemplates = await Template.find(filter);
         res.status(200).json(actualtemplates);
-      } catch (error) {
+    } catch (error) {
         res.status(500).json({ error: error.message });
-      }
+    }
 };
 
-// Crear una nueva plantilla
-const createTemplate = async (req, res) => {
+export const getTemplateById = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const template = await Template.findById(id);
+
+        if (!template) {
+            return res.status(404).json({ message: 'Plantilla no encontrada' });
+        }
+
+        res.status(200).json(template);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al buscar la plantilla', error });
+    }
+};
+
+export const createTemplate = async (req, res) => {
     try {
         const newTemplate = new Template(req.body);
         const savedTemplate = await newTemplate.save();
@@ -39,8 +46,7 @@ const createTemplate = async (req, res) => {
     }
 };
 
-// Actualizar una plantilla por ID
-const updateTemplate = async (req, res) => {
+export const updateTemplate = async (req, res) => {
     try {
         const updatedTemplate = await Template.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.status(200).json(updatedTemplate);
@@ -49,19 +55,11 @@ const updateTemplate = async (req, res) => {
     }
 };
 
-// Eliminar una plantilla por ID
-const deleteTemplate = async (req, res) => {
+export const deleteTemplate = async (req, res) => {
     try {
         await Template.findByIdAndDelete(req.params.id);
         res.status(200).json({ message: 'Plantilla eliminada correctamente' });
     } catch (error) {
         res.status(500).json({ message: 'Error al eliminar la plantilla', error });
     }
-};
-
-module.exports = {
-    getAllTemplates,
-    createTemplate,
-    updateTemplate,
-    deleteTemplate
 };

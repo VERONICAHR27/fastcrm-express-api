@@ -1,17 +1,18 @@
-const express = require('express');
-const {
+import express from 'express';
+import {
     getAllTemplates,
     createTemplate,
     updateTemplate,
-    deleteTemplate
-} = require('../controllers/templateController');
+    deleteTemplate,
+    getTemplateById
+} from '../controllers/templateController.js';
 
 const router = express.Router();
 
-// Rutas CRUD
 router.get('/', getAllTemplates);
+router.get('/:id', getTemplateById);
 router.post('/', createTemplate);
 router.put('/:id', updateTemplate);
 router.delete('/:id', deleteTemplate);
 
-module.exports = router;
+export default router;
