@@ -94,26 +94,6 @@ export const updateCompany = async (req, res) => {
     }
 };
 
-
-
-
-/*export const updateCompany = async (req, res) => {
-    try {
-        const { id } = req.params; // El ID ya es un String
-        const validatedData = companySchema.parse(req.body);
-
-        const updatedCompany = await prisma.company.update({
-            where: { id }, // Pasar el ID directamente como String
-            data: validatedData,
-        });
-
-        res.status(200).json(updatedCompany);
-    } catch (error) {
-        console.error('Error al actualizar la empresa:', error); // Log para depuración
-        res.status(400).json({ error: 'Error al actualizar la empresa', details: error.message });
-    }
-};*/
-
 export const deleteCompany = async (req, res) => {
     try {
         const { id } = req.params;

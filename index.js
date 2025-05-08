@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import templateRoutes from './routes/templateRoutes.js';
 import companyRoutes from './routes/companyRoutes.js';
 import contactRoutes from './routes/contactRoutes.js';
+import contactLogRoutes from './routes/contactLogRoutes.js';
 
 dotenv.config();
 
@@ -21,7 +22,8 @@ mongoose.connect(process.env.MONGO_URI)
 app.use('/api/templates', templateRoutes);
 app.use('/api/companies', companyRoutes);
 app.use('/api/contacts', contactRoutes);
+app.use('/api/contact-logs', contactLogRoutes);
 
 app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
 });

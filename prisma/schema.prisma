@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Company {
-  id        String       @id @default(cuid())
+  id        String    @id @default(cuid())
   name      String
   ruc       String
   createdAt DateTime  @default(now())
@@ -16,10 +16,21 @@ model Company {
 }
 
 model Contact {
-  id        String      @id @default(uuid())
+  id        String       @id @default(uuid())
   name      String
   whatsapp  String
-  createdAt DateTime  @default(now())
-  company   Company? @relation(fields: [companyId], references: [id], onDelete: SetNull, onUpdate: Cascade) // Agregado onUpdate: Cascade
-  companyId String?     
+  createdAt DateTime     @default(now())
+  company   Company?     @relation(fields: [companyId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  companyId String?
+  logs      ContactLog[] // Relación con ContactLog
 }
+
+model ContactLog {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  templateId  String   // ID de referencia a la plantilla en MongoDB
+  template    String   // Contenido de la plantilla (copia para registro histórico)
+  contact     Contact  @relation(fields: [contactId], references: [id])
+  contactId   String
+}
+
