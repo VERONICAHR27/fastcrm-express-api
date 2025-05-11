@@ -46,7 +46,9 @@
 
 4. **Decisiones técnicas clave.**
     + Se uso Zod para validaciones y mejora la robustez del código,asegura que trabajes con datos limpios y bien tipados y facilita el desarrollo de aplicaciones seguras, escalables y mantenibles.
-    + Modelado de datos
+    + Modelado de datos.
+    + Patrón MVC (Models, Controllers, Routes).
+    
 5. **ENDPOINT DE LA API**
 
     **Contactos (/api/contacts)**
@@ -86,7 +88,7 @@
     DELETE /api/templates/:id       // Eliminar una plantilla por ID
 
     **Historial de Contacto (/api/contact-logs)**
-    
+
     GET    /api/contact-logs            // Obtener todos los logs de contacto
 
     POST   /api/contact-logs            // Crear un log de contacto manualmente
